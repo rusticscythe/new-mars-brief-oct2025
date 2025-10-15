@@ -1,0 +1,742 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Timeline: F11Beta x New Mars (Sep 2567 - Oct 2568)</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 40px 20px;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+        
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 10px;
+            font-size: 2.5em;
+        }
+        
+        .subtitle {
+            text-align: center;
+            color: #7f8c8d;
+            margin-bottom: 50px;
+            font-size: 1.2em;
+        }
+        
+        .timeline {
+            position: relative;
+            padding: 20px 0;
+        }
+        
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 4px;
+            height: 100%;
+            background: linear-gradient(180deg, #667eea 0%, #764ba2 100%);
+        }
+        
+        .period {
+            margin-bottom: 60px;
+            position: relative;
+        }
+        
+        .period-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        
+        .period-title {
+            display: inline-block;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px 40px;
+            border-radius: 50px;
+            font-size: 1.8em;
+            font-weight: bold;
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
+            position: relative;
+            z-index: 10;
+        }
+        
+        .period-phase {
+            display: inline-block;
+            background: #ecf0f1;
+            color: #34495e;
+            padding: 8px 20px;
+            border-radius: 20px;
+            margin-top: 10px;
+            font-size: 1em;
+            font-weight: 600;
+        }
+        
+        .events {
+            display: grid;
+            gap: 30px;
+        }
+        
+        .event {
+            position: relative;
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .event:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        
+        .event.left {
+            margin-right: 52%;
+        }
+        
+        .event.right {
+            margin-left: 52%;
+        }
+        
+        .event::before {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: #667eea;
+            border: 4px solid white;
+            border-radius: 50%;
+            top: 30px;
+            box-shadow: 0 0 0 4px #667eea33;
+        }
+        
+        .event.left::before {
+            right: -62px;
+        }
+        
+        .event.right::before {
+            left: -62px;
+        }
+        
+        .event-date {
+            display: inline-block;
+            background: #3498db;
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            font-weight: bold;
+            margin-bottom: 12px;
+        }
+        
+        .event-title {
+            color: #2c3e50;
+            font-size: 1.3em;
+            font-weight: bold;
+            margin-bottom: 12px;
+        }
+        
+        .event-details {
+            color: #555;
+            margin-bottom: 10px;
+        }
+        
+        .event-items {
+            list-style: none;
+            margin-top: 10px;
+        }
+        
+        .event-items li {
+            padding: 8px 0;
+            padding-left: 25px;
+            position: relative;
+            color: #444;
+            font-size: 0.95em;
+        }
+        
+        .event-items li::before {
+            content: '▸';
+            position: absolute;
+            left: 5px;
+            color: #667eea;
+            font-weight: bold;
+        }
+        
+        .highlight {
+            background: #fff3cd;
+            padding: 15px;
+            border-left: 4px solid #ffc107;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+        
+        .warning {
+            background: #f8d7da;
+            padding: 15px;
+            border-left: 4px solid #dc3545;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+        
+        .success {
+            background: #d4edda;
+            padding: 15px;
+            border-left: 4px solid #28a745;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+        
+        .tag {
+            display: inline-block;
+            background: #e8f4f8;
+            color: #0066cc;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 0.85em;
+            margin: 5px 5px 5px 0;
+            font-weight: 600;
+        }
+        
+        .milestone-marker {
+            background: #ffd700;
+            color: #333;
+            padding: 3px 10px;
+            border-radius: 10px;
+            font-size: 0.8em;
+            font-weight: bold;
+            margin-left: 10px;
+        }
+        
+        @media (max-width: 768px) {
+            .timeline::before {
+                left: 30px;
+            }
+            
+            .event.left,
+            .event.right {
+                margin-left: 60px;
+                margin-right: 0;
+            }
+            
+            .event.left::before,
+            .event.right::before {
+                left: -50px;
+                right: auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🚀 Timeline: F11Beta x New Mars</h1>
+        <p class="subtitle">กันยายน 2567 - ตุลาคม 2568 | ความร่วมมือพัฒนา Indoor Vertical Farm</p>
+        
+        <div class="timeline">
+            
+            <!-- Q4/2567 -->
+            <div class="period">
+                <div class="period-header">
+                    <div class="period-title">Q4/2567 (ก.ย. - ธ.ค. 2567)</div>
+                    <div class="period-phase">🌱 Phase: Initial Engagement & Discovery</div>
+                </div>
+                
+                <div class="events">
+                    <div class="event left">
+                        <div class="event-date">20 ส.ค. 2567</div>
+                        <div class="event-title">Office Hours - เริ่มต้นความร่วมมือ</div>
+                        <div class="event-details">
+                            การประชุมแรกระหว่าง F11Beta และ New Mars
+                        </div>
+                        <ul class="event-items">
+                            <li>ทำความรู้จักธุรกิจ Indoor Vertical Farm ของ New Mars</li>
+                            <li>สำรวจโอกาสในการให้คำปรึกษา</li>
+                            <li>หารือแนวทางความร่วมมือเบื้องต้น</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="event right">
+                        <div class="event-date">3 ก.ย. 2567</div>
+                        <div class="event-title">เริ่มโครงการอย่างเป็นทางการ</div>
+                        <div class="event-details">
+                            F11Beta เข้าให้บริการ consulting สำหรับ New Mars
+                        </div>
+                        <div class="success">
+                            ✓ เริ่มต้นความร่วมมือ Beta x New Mars อย่างเป็นทางการ
+                        </div>
+                        <span class="tag">Consulting Service</span>
+                        <span class="tag">Indoor Vertical Farm</span>
+                    </div>
+                    
+                    <div class="event left">
+                        <div class="event-date">15 ต.ค. 2567</div>
+                        <div class="event-title">One-on-One Meeting #1</div>
+                        <div class="event-details">
+                            การประชุมเชิงลึกครั้งแรกเพื่อวางแผนยุทธศาสตร์
+                        </div>
+                        <ul class="event-items">
+                            <li>วิเคราะห์โอกาสทางธุรกิจของ New Mars</li>
+                            <li>ระดมความคิดเกี่ยวกับ Farm-as-a-Service model</li>
+                            <li>กำหนดทิศทางการพัฒนา Scalable Business</li>
+                            <li>หารือเรื่องโครงสร้างธุรกิจและการลงทุน</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Q1/2568 -->
+            <div class="period">
+                <div class="period-header">
+                    <div class="period-title">Q1/2568 (ม.ค. - มี.ค. 2568)</div>
+                    <div class="period-phase">🏗️ Phase: Structure Development & Strategic Planning</div>
+                </div>
+                
+                <div class="events">
+                    <div class="event right">
+                        <div class="event-date">16 ม.ค. 2568</div>
+                        <div class="event-title">1-1 Meeting: SHA & Company Registration <span class="milestone-marker">MILESTONE</span></div>
+                        <div class="event-details">
+                            การประชุมสำคัญเรื่องโครงสร้างนิติบุคคลและข้อตกลงผู้ถือหุ้น
+                        </div>
+                        <ul class="event-items">
+                            <li><strong>โครงสร้าง:</strong> New Mars จะเป็น Holding Company</li>
+                            <li><strong>SHA:</strong> หารือข้อกำหนด "การค้าแข่งขัน" และ "วัตถุประสงค์"</li>
+                            <li><strong>Conflict Management:</strong> วางแผนหลีกเลี่ยง conflict กับ Distar</li>
+                            <li>เพิ่มวัตถุประสงค์เรื่องเกษตร, training, วิจัย และให้คำปรึกษา</li>
+                            <li>Discuss JV หรือ license out</li>
+                        </ul>
+                        <div class="highlight">
+                            💡 <strong>Key Insight:</strong> ใช้การ convert หุ้นในอนาคตเป็นกลไกจัดการ conflict
+                        </div>
+                    </div>
+                    
+                    <div class="event left">
+                        <div class="event-date">17 ม.ค. 2568</div>
+                        <div class="event-title">1-1 Meeting: Business Structure Clarification</div>
+                        <div class="event-details">
+                            ชี้แจงรายละเอียดแกนธุรกิจและแหล่งรายรับของ New Mars
+                        </div>
+                        <ul class="event-items">
+                            <li><strong>Research:</strong> งานวิจัยสำหรับภาคเอกชน (IP เป็นของ New Mars) และภาครัฐ (co-own IP)</li>
+                            <li><strong>Consult:</strong> ให้คำแนะนำและคิดรายได้ตามเวลา (เช่น โครงการลาดพร้าว 101)</li>
+                            <li><strong>Habitect:</strong> Urban contract farm ขนาด XS-S-M (License model)</li>
+                            <li><strong>Project-Based:</strong> โครงการขนาด L</li>
+                            <li>หารือเรื่อง Andaman Fresh (50% non-investment) - ต้อง develop SHA</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="event right">
+                        <div class="event-date">13 ก.พ. 2568</div>
+                        <div class="event-title">One-on-One #13FEB2025 <span class="milestone-marker">KEY DECISION</span></div>
+                        <div class="event-details">
+                            การประชุมสำคัญที่สุด - กำหนดบทบาทชัดเจนของแต่ละฝ่าย
+                        </div>
+                        <div class="success">
+                            <strong>🎯 Decision Made:</strong><br>
+                            • <strong>New Mars = R&D / Research Facility</strong><br>
+                            • <strong>Licensee = Franchisor / Operator</strong>
+                        </div>
+                        <ul class="event-items">
+                            <li><strong>Licensee:</strong> New Mars license ให้ Licensee โดยไม่ต้องถือหุ้น</li>
+                            <li><strong>Funding:</strong> รับ 100,000 บาท Grant เพื่อ kick off operation</li>
+                            <li><strong>Investor Structure:</strong> Habitect = Beta + Investor (RTR)</li>
+                            <li><strong>Key Resource:</strong> New Mars ต้องมี Business Manager เพื่อ support พี่อ๊อก</li>
+                        </ul>
+                        <div class="highlight">
+                            📋 <strong>Deliverables จาก New Mars สำหรับ Licensee:</strong><br>
+                            • Actual Drawing File, 3D Render & BOQ (e.g.ลาดพร้าว 101)<br>
+                            • Hardware list (equipment, IoT, spec) สำหรับ Type S<br>
+                            • Growing Recipes<br>
+                            • Software (ERP and related Modules)<br>
+                            • Operational Manuals
+                        </div>
+                        <div class="highlight">
+                            📋 <strong>Deliverables จาก Licensee:</strong><br>
+                            • PM ของ Licensee เข้า co-work กับ New Mars <br>
+                            • Iterate pilot farm เป็นสูตรขยาย franchise<br>
+                            • สร้างระบบการตลาด ขาย และ logistics
+                        </div>
+                        <span class="tag">Business Model</span>
+                        <span class="tag">R&D vs Operations</span>
+                        <span class="tag">Licensing</span>
+                    </div>
+                    
+                    <div class="event left">
+                        <div class="event-date">14 ก.พ. 2568</div>
+                        <div class="event-title">RTR x New Mars Update</div>
+                        <div class="event-details">
+                            พูดคุยกับนักลงทุน RTR เกี่ยวกับโครงสร้างการลงทุน
+                        </div>
+                        <ul class="event-items">
+                            <li><strong>เพิ่มทุน:</strong> ผู้ถือหุ้นเดิมมีสิทธิ์เพิ่มทุนก่อน → สะดวกต่อการเพิ่มทุน</li>
+                            <li><strong>Due Diligence:</strong> กระบวนการ VC ต้องให้ VC นับถือหุ้น 1 หุ้น ผ่านการ due diligence</li>
+                            <li>จากนั้นที่ประชุมผู้ถือหุ้นถึงจะ approve ให้ VC ใหม่เพิ่มทุน</li>
+                            <li><strong>Note:</strong> RTR สนใจเรื่องของ license, R&D แต่ยังไม่พิเศษเกี่ยวกับเมนูอาหารเพียงอย่างเดียว</li>
+                        </ul>
+                        <div class="highlight">
+                            🤔 <strong>Question Raised:</strong> คุณปูจะ fit in ตรงไหน? PJ Based พิเศษ จะใช้เงินเชื่อนไปใช้กุดต้อง → ค่าเช่า facility เอามา sustain ไปเรื่อยพิเศษ
+                        </div>
+                    </div>
+                    
+                    <div class="event right">
+                        <div class="event-date">25 ก.พ. 2568</div>
+                        <div class="event-title">1-1 Minute Meeting</div>
+                        <div class="event-details">
+                            ติดตามความคืบหน้าและประเด็นรายละเอียด
+                        </div>
+                        <ul class="event-items">
+                            <li>Review โครงสร้างที่ตกลงไปแล้ว</li>
+                            <li>ติดตามสถานะการเตรียม deliverables</li>
+                            <li>วางแผนขั้นตอนถัดไป</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="event left">
+                        <div class="event-date">4 มี.ค. 2568</div>
+                        <div class="event-title">มีทีมจาก Alpha Academy มาเป็น Trainee</div>
+                        <div class="event-details">
+                            ทีมภายในหารือแนวทางความร่วมมือกับ AA (อาจเป็น partner หรือ investor)
+                        </div>
+                        <ul class="event-items">
+                            <li>พิจารณารูปแบบความร่วมมือที่เหมาะสม</li>
+                            <li>ประเมินศักยภาพของ AA ในการเป็น strategic partner</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="event right">
+                        <div class="event-date">7 มี.ค. 2568</div>
+                        <div class="event-title">P'White x Founders Meeting</div>
+                        <div class="event-details">
+                            การประชุมระดับผู้บริหารเพื่อ align vision และทิศทาง
+                        </div>
+                        <ul class="event-items">
+                            <li>Align vision ระหว่าง F11Beta และ New Mars</li>
+                            <li>หารือเรื่องการขยายตลาดและโอกาสใหม่</li>
+                            <li>วางแผนการพัฒนาระยะยาว</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="event left">
+                        <div class="event-date">22 มี.ค. 2568</div>
+                        <div class="event-title">AA x Founder First Meet</div>
+                        <div class="event-details">
+                            การพบปะครั้งแรกกับ AA เพื่อสำรวจโอกาสความร่วมมือ
+                        </div>
+                        <ul class="event-items">
+                            <li>นำเสนอโครงการ Habitect และ New Mars</li>
+                            <li>สำรวจความสนใจและความเป็นไปได้ในการร่วมลงทุน</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="event right">
+                        <div class="event-date">23 มี.ค. 2568</div>
+                        <div class="event-title">New Mars x F11 BETA x K. Ta (Potential Investor)</div>
+                        <div class="event-details">
+                            พบปะนักลงทุนรายสำคัญ - คุณตา ผู้มี assets หลายรายการ
+                        </div>
+                        <ul class="event-items">
+                            <li><strong>คุณตา Profile:</strong> เจ้าของที่ดินหลายแห่ง - Venecia 46 ไร่, โรงพยาบาลร้าง 37 ไร่, วังหิน, หมู่บ้านนวธานี 7 ไร่, ภูเก็ต 7 ไร่, หาดท่าหลา 28 ไร่</li>
+                            <li><strong>Style:</strong> มีแต่ไอเดีย ค่อนข้างฟุ้งมาก ติดกับคำ "Market Trend"</li>
+                            <li><strong>ความต้องการ:</strong> หาคนมาทำธุรกิจให้ ดูแลแทน ทำเองไม่ได้</li>
+                            <li><strong>Note:</strong> คุณตาเพิ่งรู้จักคุณนัท (ในมีทติ้ง) คุณนัทยังไม่พูดอะไร คิดว่า blank อยู่</li>
+                        </ul>
+                        <div class="success">
+                            <strong>📍 Direction Aligned:</strong><br>
+                            • คุณตาตั้งบริษัท A เป็นเจ้าของ 100%<br>
+                            • บริษัท A สร้าง Research Facility และ/หรือ Prototype Size S/XS<br>
+                            • New Mars เช่า Research Facility จากบริษัท A<br>
+                            • แลกเปลี่ยน: บริษัท A เข้าถือหุ้น New Mars (<20%) + New Mars จ่ายค่าเช่า<br>
+                            • New Mars ยังถือ Know-how asset (สูตร, software, system, tech)
+                        </div>
+                        <div class="highlight">
+                            🎯 <strong>Next Step:</strong> คุณตาชวนให้พี่ไวท์ลองไปดูสถานที่ - ต้องหา slot เวลา
+                        </div>
+                        <span class="tag">Investor Meeting</span>
+                        <span class="tag">Asset-backed Investment</span>
+                    </div>
+                    
+                    <div class="event left">
+                        <div class="event-date">31 มี.ค. 2568</div>
+                        <div class="event-title">Preparation for 1 APR 2025</div>
+                        <div class="event-details">
+                            เตรียมเอกสารและข้อมูลสำหรับการประชุมสำคัญ 1 เมษายน
+                        </div>
+                        <ul class="event-items">
+                            <li>รวบรวมข้อมูล deliverables</li>
+                            <li>เตรียม presentation และ key questions</li>
+                            <li>ทบทวนประเด็นที่ต้องหารือ</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Q2/2568 -->
+            <div class="period">
+                <div class="period-header">
+                    <div class="period-title">Q2/2568 (เม.ย. - มิ.ย. 2568)</div>
+                    <div class="period-phase">🎯 Phase: Execution & Documentation</div>
+                </div>
+                
+                <div class="events">
+                    <div class="event right">
+                        <div class="event-date">1 เม.ย. 2568</div>
+                        <div class="event-title">New Mars x Beta Meeting <span class="milestone-marker">CRITICAL</span></div>
+                        <div class="event-details">
+                            การประชุมสำคัญที่กำหนด scope งานและ validation criteria ชัดเจน
+                        </div>
+                        <div class="highlight">
+                            <strong>🔍 Key Questions - Backend Validation:</strong><br>
+                            • <strong>Feasibility:</strong> คิดว่า yield & revenue ทำได้จริงไหม?<br>
+                            • <strong>Resource Planning:</strong> ฟาร์มใช้กี่คน? โครงสร้าง OpEx ที่ประมาณมา operate ได้จริงไหม?<br>
+                            • <strong>Business Model:</strong> ถ้า demand OK, Yield OK, OpEx OK งั้นค่า Upfront & FC Fee มาที่ Habitect สมเหตุสมผลไหม?
+                        </div>
+                        <ul class="event-items">
+                            <li><strong>Hardware unknowns:</strong> ดีไซน์รางปลูก, มี drawing ยัง?, ใช้อุปกรณ์อะไรบ้าง?, ใช้ sensors อะไร?, config value คืออะไร?, สรุปเป็น BOQ ได้ไหม?, ใครคือ supplier</li>
+                            <li><strong>Software unknowns:</strong> วิธีการคาดการณ์ผลผลิต</li>
+                            <li><strong>Construction unknowns:</strong> timeline ได้ตามที่ประมาณการ?, ขั้นตอนละเอียด (manual level)?, cost & spec วัสดุ</li>
+                            <li><strong>Key Partners:</strong> ผู้รับเหมาคือใครก่อนเลย?</li>
+                        </ul>
+                        <div class="highlight">
+                            💬 <strong>Insight จากพี่อ๊อก:</strong><br>
+                            • มีแผน session สอน franchisee ให้ปลูกพืช<br>
+                            • Growth Recipe ขึ้นอยู่กับสายพันธุ์พืช<br>
+                            • Variety ของผักทำให้ Yield ต่ำลง<br>
+                            • Maximum variety 15 ชนิด สำหรับ franchisee
+                        </div>
+                        <div class="success">
+                            <strong>🎯 เป้าหมาย:</strong> Feas & Manual เสร็จภายใน พ.ค. 2568
+                        </div>
+                    </div>
+                    
+                    <div class="event left">
+                        <div class="event-date">23 เม.ย. 2568</div>
+                        <div class="event-title">1-1 Monthly Meeting - Progress Tracking</div>
+                        <div class="event-details">
+                            ติดตามความคืบหน้าและประเมินสถานะโครงการ
+                        </div>
+                        <ul class="event-items">
+                            <li><strong>Plan Forward:</strong> การพัฒนาและสรุป list of licenses จาก New Mars → Licensee</li>
+                            <li><strong>Pending Items:</strong> Supplier list, useful life & replenishment cycle ของอุปกรณ์/วัสดุสิ้นเปลือง</li>
+                            <li><strong>Need Review:</strong> สัญญาและเงื่อนไข ธกส. สำหรับ projection</li>
+                        </ul>
+                        <div class="warning">
+                            ⚠️ <strong>Status:</strong> อยากได้ proposal template, feas template, FC process ภายใน end of May 2025 - <strong>DELAYED</strong>
+                        </div>
+                    </div>
+                    
+                    <div class="event right">
+                        <div class="event-date">20 พ.ค. 2568</div>
+                        <div class="event-title">1-1 Monthly Meeting - Onsite Visit Ladprao 101</div>
+                        <div class="event-details">
+                            การประชุมพร้อมเยี่ยมชมสถานที่จริงที่ลาดพร้าว 101
+                        </div>
+                        <ul class="event-items">
+                            <li>เยี่ยมชม pilot farm ที่ลาดพร้าว 101</li>
+                            <li>ตรวจสอบความคืบหน้าของ deliverables</li>
+                            <li>ประเมินสถานะ actual vs plan</li>
+                        </ul>
+                        <div class="warning">
+                            ⚠️ <strong>Confirmed:</strong> Deliverables ล่าช้ากว่าแผน (เดิมกำหนด end of May)
+                        </div>
+                    </div>
+                    
+                    <div class="event left">
+                        <div class="event-date">17 มิ.ย. 2568</div>
+                        <div class="event-title">Direction Forward - Strategic Realignment <span class="milestone-marker">KEY PIVOT</span></div>
+                        <div class="event-details">
+                            ประชุมเพื่อปรับทิศทางและยืนยันบทบาทของแต่ละฝ่ายอีกครั้ง
+                        </div>
+                        <div class="success">
+                            <strong>✓ Reconfirmed:</strong><br>
+                            • New Mars = R&D / Licensee = Franchisor<br>
+                            • New Mars license → Licensee เฉย ๆ ไม่ต้องถือหุ้น <br>
+                            • Licensee เป็น independent investors
+                        </div>
+                        <ul class="event-items">
+                            <li><strong>Funding:</strong> Habitect จะนำ 100,000 บาท Grant มา Operate เพื่อ Kick Off / On Board ทีม</li>
+                            <li><strong>Mars One Clarity:</strong> New Mars เดิมจะเปลี่ยนชื่อ/แปรสภาพมาจาก Mars One แต่ตอนนี้เป็นการจดทะเบียนตั้งใหม่</li>
+                            <li><strong>Asset Clarity Needed:</strong> ขอ make sure ว่า Mars One จะยัง operate ไหมและจะถือครอง assets อะไรบ้าง → จะได้ไม่ conflict กับ New Mars</li>
+                        </ul>
+                        <div class="highlight">
+                            🚀 <strong>New Mars Requirements:</strong><br>
+                            สิ่งที่ New Mars ต้องมีเพื่อ operate as New Mars — มีทีมทำงานเพื่อซัพพอร์ทพี่อ๊อกและเป็นตัวแทนมาประสานกับโปรเจกต์อื่น ๆ<br>
+                            → <strong>New Mars Business Manager</strong> (ทางเลือกคือคุณเม่ง - consult candidate)
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Q3/2568 -->
+            <div class="period">
+                <div class="period-header">
+                    <div class="period-title">Q3/2568 (ก.ค. - ก.ย. 2568)</div>
+                    <div class="period-phase">🔄 Phase: Realignment & Market Exploration</div>
+                </div>
+                
+                <div class="events">
+                    <div class="event right">
+                        <div class="event-date">6 ก.ค. 2568</div>
+                        <div class="event-title">Moving Forward Document + IVF Research</div>
+                        <div class="event-details">
+                            จัดทำเอกสารสรุปทิศทางและงานวิจัยเกี่ยวกับ Indoor Vertical Farm
+                        </div>
+                        <ul class="event-items">
+                            <li>สรุป Market Research, User Persona, Segmentation</li>
+                            <li>รวบรวม Case Studies จากตลาดต่างประเทศ</li>
+                            <li>วิเคราะห์ B2B Possibilities และ Beachhead Market</li>
+                            <li>Research: Laws and Regulations เกี่ยวกับ Plant Factory</li>
+                            <li>ประเมินความเสี่ยงในการดำเนินกิจการ</li>
+                            <li>คำนวณ Optimal Radius สำหรับ distribution network</li>
+                        </ul>
+                        <div class="highlight">
+                            📊 <strong>B2B Model Assumption:</strong><br>
+                            โมเดล B2B ที่ธุรกิจลงทุนสร้าง Indoor Vertical Farm เองเพื่อผลิตผักสลัดและผักกินใบ (Leafy Greens)<br>
+                            • Visualized by Claude: <a href="https://claude.ai/public/artifacts/7652963c-babd-4234-8af0-b4bf4875ba51" target="_blank">View Artifact</a><br>
+                            • Visualized by Gamma: <a href="https://gamma.app/docs/B2B-Indoor-Vertical-Farmopnbl7dxyovunrr" target="_blank">View Presentation</a>
+                        </div>
+                        <span class="tag">Research</span>
+                        <span class="tag">Market Analysis</span>
+                        <span class="tag">B2B Strategy</span>
+                    </div>
+                    
+                    <div class="event left">
+                        <div class="event-date">8 ก.ค. 2568</div>
+                        <div class="event-title">Monthly Catch-up <span class="milestone-marker">STRATEGY PIVOT</span></div>
+                        <div class="event-details">
+                            การประชุมทบทวนและปรับกลยุทธ์ครั้งสำคัญ
+                        </div>
+                        <div class="warning">
+                            <strong>🔄 MAJOR STRATEGY SHIFT:</strong><br>
+                            • ปรับ dynamic ของ Licensee (ไม่เร่ง)<br>
+                            • มาโฟกัสการ drive New Mars แทน
+                        </div>
+                        <ul class="event-items">
+                            <li><strong>Agenda Covered:</strong>
+                                <ul style="margin-left: 20px; margin-top: 5px;">
+                                    <li>1. Updates on New Mars (Project-based, Consultant, Academy, New opportunities)</li>
+                                    <li>2. Way forward - หาทางเดินต่อที่เหมาะกับทั้งสองฝั่ง และเคารพจังหวะการทำงาน</li>
+                                    <li>3. สิ่งที่ทีม F11 เรียนรู้จากช่วงที่ผ่านมา + แนวทางที่เหมาะกับความร่วมมือระยะถัดไป</li>
+                                </ul>
+                            </li>
+                        </ul>
+                        <div class="highlight">
+                            <strong>⚠️ Case Discussion: Distar x Nextopia</strong><br>
+                            ทีม raise ประเด็นเรื่องระวัง Getfresh นำไป PR ในเชิงทุกสาขาใช้ผัก "medical grade"<br>
+                            → ต้องรีวิวสัญญาใช้พื้นที่ (ซึ่งจากข้อมูลพี่จิ๊บ ทีมกฎหมายของ Distar ได้รีวิวค่อนข้างละเอียดแล้ว)
+                        </div>
+                        <div class="success">
+                            <strong>🎯 Next Steps:</strong><br>
+                            • ครั้งถัดไปที่พูดคุยจะใช้เพื่อติดตามความคืบหน้าโปรเจกต์ต่าง ๆ ที่ New Mars กำลังดำเนิน<br>
+                            • ส่ง template สำหรับติดตามและประเมินโอกาสในแต่ละโปรเจกต์<br>
+                            • ช่วยให้ New Mars มองเห็นจังหวะของ licensing model ได้ชัดเจนขึ้น<br>
+                            • (ขอ slot นัดติดตามอีกที)
+                        </div>
+                        <span class="tag">Strategy Pivot</span>
+                        <span class="tag">Prioritization Shift</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Q4/2568 - Current -->
+            <div class="period">
+                <div class="period-header">
+                    <div class="period-title">Q4/2568 (ต.ค. 2568 - ปัจจุบัน)</div>
+                    <div class="period-phase">📊 Phase: Current Status & Monitoring</div>
+                </div>
+                
+                <div class="events">
+                    <div class="event right">
+                        <div class="event-date">15 ต.ค. 2568</div>
+                        <div class="event-title">📍 Current Status - วันนี้</div>
+                        <div class="event-details">
+                            สถานะปัจจุบันของความร่วมมือและงานที่ค้างอยู่
+                        </div>
+                        <div class="warning">
+                            <strong>⏳ Pending Deliverables (เดิมกำหนด พ.ค. 2568):</strong><br>
+                            • Actual Drawing File, 3D Render & BOQ (ลาดพร้าว 101)<br>
+                            • Hardware list with detailed specs<br>
+                            • Growing recipes<br>
+                            • Software (ERP modules)<br>
+                            • Operational manuals<br>
+                            • Supplier list<br>
+                            • Useful life & replenishment cycle<br>
+                            • ธกส. contract review
+                        </div>
+                        <div class="highlight">
+                            <strong>🎯 Current Focus:</strong><br>
+                            • New Mars: กำลังติดตาม Project-based opportunities<br>
+                            • Partnership: ใช้ template ติดตามโอกาส licensing model<br>
+                            • Still looking for: New Mars Business Manager
+                        </div>
+                        <div class="success">
+                            <strong>✓ Achievements So Far:</strong><br>
+                            • กำหนดโครงสร้างธุรกิจชัดเจน (New Mars = R&D, Habitect = Franchisor)<br>
+                            • วางระบบ licensing model<br>
+                            • สำรวจโอกาส B2B หลายรูปแบบ<br>
+                            • พบ potential investors (K. Ta และอื่น ๆ)<br>
+                            • มี pilot farm ที่ลาดพร้าว 101 เป็น showcase<br>
+                            • Research & market analysis เสร็จสมบูรณ์
+                        </div>
+                        <span class="tag">Status Update</span>
+                        <span class="tag">Ongoing Monitoring</span>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+        
+        <div style="margin-top: 60px; padding: 30px; background: #f8f9fa; border-radius: 15px; border-left: 5px solid #667eea;">
+            <h2 style="color: #2c3e50; margin-bottom: 20px;">📊 สรุป Key Insights</h2>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px;">
+                <div>
+                    <h3 style="color: #667eea; margin-bottom: 10px;">🎯 Critical Milestones</h3>
+                    <ul style="margin-left: 20px; color: #555;">
+                        <li>3 ก.ย. 2567: เริ่มความร่วมมือ</li>
+                        <li>16 ม.ค. 2568: กำหนดโครงสร้างนิติบุคคล</li>
+                        <li>13 ก.พ. 2568: แยกบทบาท R&D vs Franchisor</li>
+                        <li>1 เม.ย. 2568: กำหนด deliverables ชัดเจน</li>
+                        <li>8 ก.ค. 2568: Pivot strategy - focus New Mars</li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 style="color: #e74c3c; margin-bottom: 10px;">⚠️ Key Challenges</h3>
+                    <ul style="margin-left: 20px; color: #555;">
+                        <li>Deliverables delayed (เป้าหมายเดิม พ.ค.)</li>
+                        <li>ยังหา Business Manager ไม่ได้</li>
+                        <li>Mars One vs New Mars ยังต้อง clarify assets</li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 style="color: #27ae60; margin-bottom: 10px;">✅ Next Actions</h3>
+                    <ul style="margin-left: 20px; color: #555;">
+                        <li>เร่งรัด deliverables จาก New Mars</li>
+                        <li>Recruit Business Manager</li>
+                        <li>Clarify Mars One asset separation</li>
+                        <li>ติดตาม licensing opportunities</li>
+                        <li>Follow up กับ K. Ta site visit</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+    </div>
+</body>
+</html>
